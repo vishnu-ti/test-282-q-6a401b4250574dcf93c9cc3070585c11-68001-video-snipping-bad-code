@@ -25,7 +25,7 @@ def upload_to_aws(local_file, bucket, s3_file):
 class VideoService():
 
     BASE_URL = "https://cj-video-test.s3.amazonaws.com/{}"
-    ProcessedFile = "video-proces-{}.mp4"
+    PROCESSED_FILE = "video-proces-{}.mp4"
 
     @staticmethod
     def get_s3_name(name):
@@ -77,7 +77,7 @@ class VideoService():
         clip = VideoFileClip('/tmp/' + name)
         no_of_file = int(int(clip.duration) / interval_time) + 1
         for i in range(0, no_of_file):
-            new_name = VideoService.ProcessedFile.format(i)
+            new_name = VideoService.PROCESSED_FILE.format(i)
             clip = VideoFileClip('/tmp/' + name)
             start = i*interval_time
             end = min((i+1)*interval_time, clip.duration)
@@ -96,7 +96,7 @@ class VideoService():
         i = 0
         for part in ranges:
             clip = VideoFileClip('/tmp/' + name)
-            new_name = VideoService.ProcessedFile.format(i)
+            new_name = VideoService.PROCESSED_FILE.format(i)
             clip.subclip(part.get("start"), part.get("end")).write_videofile("/tmp/"+new_name)
             s3_name = VideoService.get_s3_name(new_name)
             upload_to_aws("/tmp/" + new_name, "cj-video-test", s3_name)
@@ -117,7 +117,7 @@ class VideoService():
         interval_time = int(clip.duration) / no_of_file
         for i in range(0, no_of_file):
             clip = VideoFileClip('/tmp/' + name)
-            new_name = VideoService.ProcessedFile.format(i)
+            new_name = VideoService.PROCESSED_FILE.format(i)
             start = i * interval_time
             end = min((i + 1) * interval_time, clip.duration)
             clip.subclip(start, end).write_videofile("/tmp/" + new_name)
@@ -139,7 +139,7 @@ class VideoService():
             clips.append(clip.subclip(video.get("start"), video.get("end")))
 
         final_clip = concatenate_videoclips(clips)
-        name = VideoService.ProcessedFile.format("f")
+        name = VideoService.PROCESSED_FILE.format("f")
         final_clip.resize((height, width)).write_videofile("/tmp/" + name)
         s3_name = VideoService.get_s3_name(name)
         upload_to_aws("/tmp/" + name, "cj-video-test", s3_name)

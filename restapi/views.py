@@ -80,7 +80,7 @@ def process_segments(request):
 
 @api_view(['POST'])
 @renderer_classes((JSONRenderer,))
-def combineVideo(request):
+def combine_video(request):
     """
     Store the Result for User Url
     """
@@ -115,10 +115,7 @@ def reset_db():
 def clear_dir(folder):
     for filename in os.listdir(folder):
         file_path = os.path.join(folder, filename)
-        try:
-            if os.path.isfile(file_path) or os.path.islink(file_path):
-                os.unlink(file_path)
-            elif os.path.isdir(file_path):
-                rmtree(file_path)
-        except Exception:
-            raise
+        if os.path.isfile(file_path) or os.path.islink(file_path):
+            os.unlink(file_path)
+        elif os.path.isdir(file_path):
+            rmtree(file_path)
