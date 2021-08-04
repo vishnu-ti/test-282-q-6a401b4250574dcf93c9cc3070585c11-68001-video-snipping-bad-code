@@ -2,7 +2,7 @@ import uuid
 
 import boto3
 import requests
-from moviepy.editor import *
+from moviepy.editor import VideoFileClip, concatenate_videoclips
 
 ACCESS_KEY = 'AKIAUOQYXSVUUFZPIGXH'
 SECRET_KEY = '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'

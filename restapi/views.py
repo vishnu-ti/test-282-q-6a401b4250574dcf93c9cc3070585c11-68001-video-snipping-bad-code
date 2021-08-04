@@ -15,8 +15,8 @@ from restapi.services.video_service import VideoService
 
 logger = logging.getLogger("Rest")
 
-
-def index():
+@api_view(['GET'])
+def index(request):
     return HttpResponse("Hello, world. You're at Video API.")
 
 
@@ -120,5 +120,5 @@ def clear_dir(folder):
                 os.unlink(file_path)
             elif os.path.isdir(file_path):
                 rmtree(file_path)
-        except Exception as e:
+        except Exception:
             raise
